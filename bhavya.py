@@ -7,7 +7,7 @@ import google.generativeai as genai
 
 
 # Configure Gemini API using the API key from environment variable
-genai.configure(api_key="AIzaSyDQXlrtFcl_3z_nMHJQrLWUYbnmNURpOSk")
+genai.configure(api_key="AIzaSyBQIQFhqhphxHqiyu0VDMfkoCc2CEAIW6Y")
 
 # Function to interact with the Gemini API and generate a response
 def get_gemini_response(prompt):
