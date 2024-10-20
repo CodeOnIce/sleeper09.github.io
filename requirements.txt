@@ -1,4 +1,4 @@
-google-generativeai
+google-generative_ai
 PyPDF2
 langchain
 langchain-community
