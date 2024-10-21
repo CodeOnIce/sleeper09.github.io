@@ -24,7 +24,7 @@ def main():
 
     if uploaded_file is not None:
         # Extract text from PDF
-        with st.spinner("Extracting text from PDF..."):
+        with st.spinner("File Processed successfully!.."):
             text = extract_text_from_pdf(uploaded_file)
             st.success("File Processed successfully!")
         
