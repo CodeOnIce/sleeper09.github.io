@@ -18,7 +18,7 @@ def get_answer_from_model(question, text):
 
 # Streamlit App
 def main():
-    st.title("PDF Q&A App hi Khushi ")
+    st.title("PDF Q&A App ")
 
     uploaded_file = st.file_uploader("Upload PDF", type=["pdf"])
 
