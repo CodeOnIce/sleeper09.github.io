@@ -8,7 +8,7 @@ def extract_text_from_pdf(pdf_file):
     for page in pdf_reader.pages:
         text += page.extract_text()
     return text
-genai.configure(api_key="here")
+genai.configure(api_key="AIzaSyBQIQFhqhphxHqiyu0VDMfkoCc2CEAIW6Y")
 # Function to generate answer from the extracted text using Google's generative AI
 def get_answer_from_model(question, text):
     model = genai.GenerativeModel("gemini-1.5-pro-latest")
