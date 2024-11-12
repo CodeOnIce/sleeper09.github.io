@@ -1,4 +1,4 @@
-import os
+oimport os
 import streamlit as st
 
 import google.generativeai as genai
@@ -44,7 +44,7 @@ if submit:
         with a(n) {activity_level.lower()} activity level. The diet chart should be for a {timeframe.lower()}.
         Ensure that the diet plan provides a balanced intake of proteins, carbohydrates, fats, vitamins, and minerals, 
         considering their age, weight, gender, and activity level. The diet should strictly follow {diet_preference.lower()} dietary guidelines.
-        Include daily meal recommendations with portion sizes and nutritional information for each meal.
+        Include daily meal recommendations with portion sizes and nutritional information for each meal.provide csv file or spreadsheet link 
         """
         
         # Get the response from the AI
