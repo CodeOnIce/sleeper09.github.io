@@ -10,17 +10,23 @@ def get_gemini_response(prompt):
     response = model.generate_content([prompt])
     return response.text
 
-# Function to parse AI response into a table
-def parse_response_to_table(response):
-    # Split the response into lines and create a list for table rows
-    rows = []
+# Function to parse AI response into a structured table and text
+def parse_response(response):
+    table_rows = []
+    other_details = []
     lines = response.splitlines()
+    
     for line in lines:
-        if '-' in line:
-            # Split the item and details by "-"
-            item, details = line.split('-', 1)
-            rows.append({"Meal/Item": item.strip(), "Details": details.strip()})
-    return pd.DataFrame(rows)
+        if ':' in line and 'Meal' in line:
+            # Check for table entries (e.g., "Meal: Breakfast, Calories: 300, Time: 8:00 AM")
+            parts = line.split(',')
+            entry = {part.split(':')[0].strip(): part.split(':')[1].strip() for part in parts}
+            table_rows.append(entry)
+        else:
+            # Collect other text information
+            other_details.append(line)
+    
+    return pd.DataFrame(table_rows), '\n'.join(other_details)
 
 # Streamlit app configuration
 st.set_page_config(page_title="Personalized Nutrition Chart App")
@@ -67,16 +73,28 @@ if submit:
 
         Exclude any foods that contain: {allergies}.
         
-        Include daily meal recommendations with portion sizes and nutritional information for each meal. Output the information 
-        in a structured table format with "Meal/Item" and "Details" columns.
+        Include daily meal recommendations with portion sizes, calories, and the ideal time to consume each meal. Output the meal 
+        details in a structured table with columns "Meal", "Calories", and "Time". Include additional suggestions or tips in normal text format.
         """
 
         # Get the response from the AI
         response = get_gemini_response(input_prompt)
         
-        # Parse the response into a table format
-        diet_chart_table = parse_response_to_table(response)
+        # Parse the response into a table and text
+        diet_chart_table, additional_details = parse_response(response)
         
-        # Display the response in table format
+        # Display the response in table format and text format
         st.subheader(f"{diet_preference} Diet Chart for {purpose} ({timeframe}):")
         st.table(diet_chart_table)
+
+        st.subheader("Additional Suggestions and Tips:")
+        st.write(additional_details)
+
+        # Generate a CSV for download
+        csv = diet_chart_table.to_csv(index=False)
+        st.download_button(
+            label="Download Diet Chart as CSV",
+            data=csv,
+            file_name=f"{name}_{timeframe}_diet_chart.csv",
+            mime="text/csv"
+        )
